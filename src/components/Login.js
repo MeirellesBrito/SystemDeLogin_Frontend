@@ -1,17 +1,49 @@
+import React, { useState } from "react";
+import axios from "axios"; // Adicionado
+
 function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    console.log(email, password);
+
+    const response = await axios.post(
+      "http://localhost:3001/login",
+      JSON.stringify({ email, password }),{
+        headers:{'Content-Type': 'application/json'}
+      }
+    );
+  };
+
   return (
-    <div className="LoginFrom-wrap">
+    <div className="LoginForm-wrap">
       <h2>Login</h2>
-      <form className="login-from">
-        <input type="email" name="email" placeholder="email" required />
+      <form className="login-form">
+        <input
+          type="email"
+          name="email"
+          placeholder="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
         <input
           type="password"
           name="password"
           placeholder="password"
           required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        <button type="submit" className="btn-login">
-          login
+        <button
+          type="submit"
+          className="btn-login"
+          onClick={(e) => handleLogin(e)}
+        >
+          Login
         </button>
       </form>
     </div>
